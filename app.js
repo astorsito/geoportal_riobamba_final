@@ -6,7 +6,7 @@
   obtiene los reportes desde GeoServer y aplica los filtros.
 */
 const CONFIGURACION = {
-    urlGeoServer: "https://beverages-wings-joke-championships.trycloudflare.com/geoserver/geoalerta",
+    urlGeoServer: "https://school-invite-aspects-minimize.trycloudflare.com/geoserver//geoalerta",
     intervaloActualizacion: 30000,
 
     /*
