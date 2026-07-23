@@ -6,7 +6,7 @@
   obtiene los reportes desde GeoServer y aplica los filtros.
 */
 const CONFIGURACION = {
-    urlGeoServer: "https://potential-tucson-reserve-switching.trycloudflare.com/geoserver/geoalerta",
+    urlGeoServer: "https://potential-tucson-reserve-switching.trycloudflare.com/geoserver/seguridad_riobamba",
     intervaloActualizacion: 30000,
 
     /*
