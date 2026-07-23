@@ -6,7 +6,7 @@
   obtiene los reportes desde GeoServer y aplica los filtros.
 */
 const CONFIGURACION = {
-    urlGeoServer: "https://corsproxy.io/?https://beverages-wings-joke-championships.trycloudflare.com/geoserver/geoalerta",
+    urlGeoServer: "https://beverages-wings-joke-championships.trycloudflare.com/geoserver/geoalerta",
     intervaloActualizacion: 30000,
 
     /*
