@@ -1,0 +1,822 @@
+/* Variables principales de color y diseño del geoportal. */
+:root {
+    --fondo: #f5f7fb;
+    --panel: #ffffff;
+    --texto: #172033;
+    --texto-secundario: #667085;
+    --borde: #e4e7ec;
+
+    --primario: #6d28d9;
+    --primario-claro: #ede9fe;
+
+    --asalto: #dc2626;
+    --asalto-oscuro: #991b1b;
+
+    --medica: #0284c7;
+    --medica-oscuro: #075985;
+
+    --accidente: #d97706;
+    --accidente-oscuro: #92400e;
+
+    --correcto: #15803d;
+    --error: #b42318;
+
+    --sombra:
+        0 10px 30px rgba(15, 23, 42, 0.10);
+
+    --radio: 16px;
+}
+
+/* Elimina márgenes predeterminados y unifica el cálculo de tamaños. */
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+    font-family:
+        Inter,
+        "Segoe UI",
+        Arial,
+        sans-serif;
+    background: var(--fondo);
+    color: var(--texto);
+}
+
+button,
+input,
+select {
+    font: inherit;
+}
+
+/* Distribución general del portal. */
+.aplicacion {
+    display: grid;
+    grid-template-columns: 390px 1fr;
+    width: 100%;
+    height: 100%;
+}
+
+/* Panel lateral de filtros e información. */
+.panel-lateral {
+    position: relative;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    height: 100%;
+    overflow-y: auto;
+    background: var(--panel);
+    border-right: 1px solid var(--borde);
+    box-shadow: 5px 0 25px rgba(15, 23, 42, 0.06);
+}
+
+.encabezado-panel {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 24px 22px 18px;
+    border-bottom: 1px solid var(--borde);
+}
+
+.marca {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+}
+
+.marca-icono {
+    display: grid;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    color: #ffffff;
+    font-size: 23px;
+    background:
+        linear-gradient(
+            145deg,
+            #ef4444,
+            #e11d48
+        );
+    box-shadow:
+        0 9px 22px rgba(225, 29, 72, 0.27);
+}
+
+.marca h1 {
+    margin: 0;
+    font-size: 23px;
+    line-height: 1.1;
+}
+
+.marca p {
+    margin: 5px 0 0;
+    color: var(--texto-secundario);
+    font-size: 13px;
+}
+
+.boton-cerrar-panel {
+    display: none;
+    width: 38px;
+    height: 38px;
+    border: 0;
+    border-radius: 10px;
+    color: var(--texto-secundario);
+    background: #f2f4f7;
+    cursor: pointer;
+}
+
+/* Estado de conexión con GeoServer. */
+.estado-servidor {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    margin: 16px 20px 0;
+    padding: 11px 13px;
+    border: 1px solid #d1fadf;
+    border-radius: 12px;
+    color: #166534;
+    font-size: 13px;
+    background: #f0fdf4;
+}
+
+.estado-servidor.error {
+    color: var(--error);
+    border-color: #fecdca;
+    background: #fef3f2;
+}
+
+.estado-indicador {
+    width: 9px;
+    height: 9px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background: #22c55e;
+    box-shadow:
+        0 0 0 4px rgba(34, 197, 94, 0.13);
+}
+
+.estado-servidor.error .estado-indicador {
+    background: #ef4444;
+    box-shadow:
+        0 0 0 4px rgba(239, 68, 68, 0.13);
+}
+
+/* Tarjetas de indicadores. */
+.estadisticas {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 11px;
+    padding: 16px 20px 5px;
+}
+
+.tarjeta-estadistica {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    min-width: 0;
+    padding: 14px;
+    border: 1px solid var(--borde);
+    border-radius: 14px;
+    background: #ffffff;
+}
+
+.estadistica-icono {
+    display: grid;
+    place-items: center;
+    width: 38px;
+    height: 38px;
+    flex-shrink: 0;
+    border-radius: 11px;
+}
+
+.estadistica-icono.total {
+    color: var(--primario);
+    background: var(--primario-claro);
+}
+
+.estadistica-icono.visibles {
+    color: #0369a1;
+    background: #e0f2fe;
+}
+
+.tarjeta-estadistica span {
+    display: block;
+    overflow: hidden;
+    color: var(--texto-secundario);
+    font-size: 11px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.tarjeta-estadistica strong {
+    display: block;
+    margin-top: 3px;
+    font-size: 21px;
+}
+
+/* Secciones del panel. */
+.seccion-panel {
+    padding: 18px 20px;
+    border-bottom: 1px solid var(--borde);
+}
+
+.seccion-listado {
+    flex: 1;
+    border-bottom: 0;
+}
+
+.titulo-seccion {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 14px;
+}
+
+.titulo-seccion h2 {
+    margin: 0;
+    font-size: 16px;
+}
+
+.titulo-seccion p {
+    margin: 4px 0 0;
+    color: var(--texto-secundario);
+    font-size: 12px;
+}
+
+.boton-icono {
+    display: grid;
+    place-items: center;
+    width: 37px;
+    height: 37px;
+    border: 1px solid var(--borde);
+    border-radius: 10px;
+    color: var(--texto-secundario);
+    background: #ffffff;
+    cursor: pointer;
+    transition:
+        transform 0.2s,
+        color 0.2s,
+        background 0.2s;
+}
+
+.boton-icono:hover {
+    color: var(--primario);
+    background: var(--primario-claro);
+    transform: rotate(20deg);
+}
+
+/* Campos del formulario. */
+.campo {
+    margin-bottom: 12px;
+}
+
+.campo label {
+    display: block;
+    margin-bottom: 6px;
+    color: #344054;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.campo input,
+.campo select {
+    width: 100%;
+    height: 42px;
+    padding: 0 11px;
+    outline: none;
+    border: 1px solid #d0d5dd;
+    border-radius: 10px;
+    color: var(--texto);
+    background: #ffffff;
+    transition:
+        border-color 0.2s,
+        box-shadow 0.2s;
+}
+
+.campo input:focus,
+.campo select:focus {
+    border-color: #8b5cf6;
+    box-shadow:
+        0 0 0 3px rgba(139, 92, 246, 0.12);
+}
+
+.fila-campos {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 11px;
+}
+
+.acciones-filtros {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 3px;
+}
+
+.boton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 42px;
+    padding: 0 14px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 600;
+    transition:
+        transform 0.2s,
+        box-shadow 0.2s,
+        background 0.2s;
+}
+
+.boton:hover {
+    transform: translateY(-1px);
+}
+
+.boton-principal {
+    color: #ffffff;
+    border: 1px solid var(--primario);
+    background:
+        linear-gradient(
+            135deg,
+            #7c3aed,
+            #6d28d9
+        );
+    box-shadow:
+        0 8px 18px rgba(109, 40, 217, 0.22);
+}
+
+.boton-secundario {
+    color: #475467;
+    border: 1px solid #d0d5dd;
+    background: #ffffff;
+}
+
+/* Listado lateral de reportes. */
+.lista-reportes {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.reporte-lista {
+    display: grid;
+    grid-template-columns: 42px 1fr auto;
+    gap: 11px;
+    align-items: center;
+    padding: 12px;
+    border: 1px solid var(--borde);
+    border-radius: 13px;
+    background: #ffffff;
+    cursor: pointer;
+    transition:
+        transform 0.2s,
+        border-color 0.2s,
+        box-shadow 0.2s;
+}
+
+.reporte-lista:hover {
+    transform: translateY(-1px);
+    border-color: #c4b5fd;
+    box-shadow:
+        0 8px 20px rgba(15, 23, 42, 0.07);
+}
+
+.reporte-lista-icono {
+    display: grid;
+    place-items: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    color: #ffffff;
+}
+
+.reporte-lista-icono.asalto {
+    background: var(--asalto);
+}
+
+.reporte-lista-icono.medica {
+    background: var(--medica);
+}
+
+.reporte-lista-icono.accidente {
+    background: var(--accidente);
+}
+
+.reporte-lista-icono.otro {
+    background: var(--primario);
+}
+
+.reporte-lista-contenido {
+    min-width: 0;
+}
+
+.reporte-lista-contenido strong {
+    display: block;
+    margin-bottom: 4px;
+    font-size: 14px;
+}
+
+.reporte-lista-contenido span {
+    display: block;
+    overflow: hidden;
+    color: var(--texto-secundario);
+    font-size: 12px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.reporte-lista-id {
+    color: #98a2b3;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.estado-vacio {
+    padding: 28px 15px;
+    color: var(--texto-secundario);
+    text-align: center;
+}
+
+.estado-vacio i {
+    margin-bottom: 8px;
+    font-size: 24px;
+}
+
+.estado-vacio p {
+    margin: 0;
+    font-size: 13px;
+}
+
+/* Contenedor y estilos del mapa. */
+.contenedor-mapa {
+    position: relative;
+    min-width: 0;
+    height: 100%;
+    background: #edf1f6;
+}
+
+#mapa {
+    width: 100%;
+    height: 100%;
+}
+
+/* Reduce visualmente la intensidad del mapa base. */
+.mapa-base {
+    filter:
+        saturate(0.65)
+        brightness(1.06)
+        contrast(0.92);
+}
+
+.boton-abrir-panel {
+    position: absolute;
+    z-index: 900;
+    top: 16px;
+    left: 16px;
+    display: none;
+    width: 45px;
+    height: 45px;
+    border: 1px solid rgba(255, 255, 255, 0.75);
+    border-radius: 13px;
+    color: var(--texto);
+    font-size: 18px;
+    background: rgba(255, 255, 255, 0.96);
+    box-shadow: var(--sombra);
+    cursor: pointer;
+}
+
+/* Leyenda flotante del mapa. */
+.leyenda-mapa {
+    position: absolute;
+    z-index: 800;
+    right: 18px;
+    bottom: 28px;
+    width: 205px;
+    padding: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.72);
+    border-radius: var(--radio);
+    background: rgba(255, 255, 255, 0.94);
+    box-shadow: var(--sombra);
+    backdrop-filter: blur(8px);
+}
+
+.leyenda-mapa h3 {
+    margin: 0 0 11px;
+    font-size: 14px;
+}
+
+.leyenda-elemento {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    margin-top: 8px;
+    color: #475467;
+    font-size: 12px;
+}
+
+.simbolo-limite {
+    width: 25px;
+    height: 14px;
+    border: 3px solid var(--primario);
+    border-radius: 3px;
+    background: transparent;
+    box-shadow:
+        0 0 0 2px #ffffff;
+}
+
+.simbolo-via {
+    width: 26px;
+    height: 4px;
+    border-radius: 5px;
+    background: #334155;
+    box-shadow:
+        0 0 0 2px #ffffff;
+}
+
+.simbolo-reporte {
+    display: grid;
+    place-items: center;
+    width: 24px;
+    height: 24px;
+    border: 2px solid #ffffff;
+    border-radius: 50%;
+    color: #ffffff;
+    font-size: 10px;
+    box-shadow:
+        0 1px 5px rgba(15, 23, 42, 0.35);
+}
+
+.simbolo-reporte.asalto {
+    background: var(--asalto);
+}
+
+.simbolo-reporte.medica {
+    background: var(--medica);
+}
+
+.simbolo-reporte.accidente {
+    background: var(--accidente);
+}
+
+/* Marcadores personalizados de Leaflet. */
+.marcador-geoalerta {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: 36px;
+    height: 36px;
+    border: 4px solid #ffffff;
+    border-radius: 50% 50% 50% 10%;
+    color: #ffffff;
+    font-size: 14px;
+    box-shadow:
+        0 4px 12px rgba(15, 23, 42, 0.38);
+    transform: rotate(-45deg);
+}
+
+.marcador-geoalerta i {
+    transform: rotate(45deg);
+}
+
+.marcador-geoalerta.asalto {
+    background: var(--asalto);
+}
+
+.marcador-geoalerta.medica {
+    background: var(--medica);
+}
+
+.marcador-geoalerta.accidente {
+    background: var(--accidente);
+}
+
+.marcador-geoalerta.otro {
+    background: var(--primario);
+}
+
+/* Diseño de la ventana emergente de cada reporte. */
+.leaflet-popup-content-wrapper {
+    overflow: hidden;
+    padding: 0;
+    border-radius: 15px;
+    box-shadow:
+        0 14px 35px rgba(15, 23, 42, 0.23);
+}
+
+.leaflet-popup-content {
+    width: 310px !important;
+    margin: 0;
+}
+
+.popup-reporte {
+    overflow: hidden;
+}
+
+.popup-encabezado {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    padding: 15px 16px;
+    color: #ffffff;
+}
+
+.popup-encabezado.asalto {
+    background:
+        linear-gradient(
+            135deg,
+            var(--asalto),
+            var(--asalto-oscuro)
+        );
+}
+
+.popup-encabezado.medica {
+    background:
+        linear-gradient(
+            135deg,
+            var(--medica),
+            var(--medica-oscuro)
+        );
+}
+
+.popup-encabezado.accidente {
+    background:
+        linear-gradient(
+            135deg,
+            var(--accidente),
+            var(--accidente-oscuro)
+        );
+}
+
+.popup-encabezado.otro {
+    background:
+        linear-gradient(
+            135deg,
+            #7c3aed,
+            #5b21b6
+        );
+}
+
+.popup-encabezado-icono {
+    display: grid;
+    place-items: center;
+    width: 39px;
+    height: 39px;
+    flex-shrink: 0;
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    border-radius: 11px;
+    background: rgba(255, 255, 255, 0.17);
+}
+
+.popup-encabezado h3 {
+    margin: 0;
+    font-size: 16px;
+}
+
+.popup-encabezado p {
+    margin: 3px 0 0;
+    color: rgba(255, 255, 255, 0.82);
+    font-size: 11px;
+}
+
+.popup-cuerpo {
+    padding: 14px 16px 16px;
+}
+
+.popup-descripcion {
+    margin: 0 0 12px;
+    padding: 10px;
+    border-radius: 9px;
+    color: #475467;
+    font-size: 12px;
+    line-height: 1.45;
+    background: #f8fafc;
+}
+
+.popup-dato {
+    display: grid;
+    grid-template-columns: 23px 1fr;
+    gap: 7px;
+    align-items: start;
+    margin-top: 8px;
+    color: #475467;
+    font-size: 12px;
+}
+
+.popup-dato i {
+    margin-top: 2px;
+    color: #7c3aed;
+    text-align: center;
+}
+
+.popup-dato strong {
+    color: #344054;
+}
+
+.popup-coordenadas {
+    margin-top: 12px;
+    padding-top: 10px;
+    border-top: 1px solid var(--borde);
+    color: #667085;
+    font-family: Consolas, monospace;
+    font-size: 11px;
+}
+
+/* Notificación flotante para mensajes del portal. */
+.notificacion {
+    position: absolute;
+    z-index: 1200;
+    top: 20px;
+    left: 50%;
+    max-width: 430px;
+    padding: 12px 17px;
+    border-radius: 12px;
+    color: #ffffff;
+    font-size: 13px;
+    background: #344054;
+    box-shadow: var(--sombra);
+    opacity: 0;
+    pointer-events: none;
+    transform:
+        translate(-50%, -20px);
+    transition:
+        opacity 0.25s,
+        transform 0.25s;
+}
+
+.notificacion.visible {
+    opacity: 1;
+    transform:
+        translate(-50%, 0);
+}
+
+.notificacion.correcto {
+    background: var(--correcto);
+}
+
+.notificacion.error {
+    background: var(--error);
+}
+
+/* Adaptación del portal para pantallas pequeñas. */
+@media (max-width: 900px) {
+    .aplicacion {
+        display: block;
+    }
+
+    .panel-lateral {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: min(390px, 92vw);
+        transform: translateX(-105%);
+        transition: transform 0.28s ease;
+    }
+
+    .panel-lateral.abierto {
+        transform: translateX(0);
+    }
+
+    .boton-cerrar-panel,
+    .boton-abrir-panel {
+        display: grid;
+        place-items: center;
+    }
+
+    .contenedor-mapa {
+        width: 100%;
+        height: 100%;
+    }
+
+    .leyenda-mapa {
+        right: 12px;
+        bottom: 20px;
+        width: 185px;
+    }
+}
+
+@media (max-width: 520px) {
+    .estadisticas {
+        grid-template-columns: 1fr;
+    }
+
+    .fila-campos {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+
+    .leyenda-mapa {
+        width: 170px;
+        padding: 12px;
+    }
+
+    .leaflet-popup-content {
+        width: 270px !important;
+    }
+}

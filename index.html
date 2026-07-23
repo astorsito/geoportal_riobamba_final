@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+
+    <!-- Permite que el portal se adapte a celulares y computadoras. -->
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="Geoportal de seguridad ciudadana GeoAlerta Riobamba"
+    >
+
+    <title>GeoAlerta Riobamba</title>
+
+    <!-- Estilos oficiales de Leaflet para mostrar correctamente el mapa. -->
+<link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+    crossorigin=""
+>
+
+    <!-- Biblioteca de iconos utilizada en el portal. -->
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    >
+
+    <!-- Estilos propios del geoportal. -->
+    <link rel="stylesheet" href="estilos.css">
+</head>
+
+<body>
+    <div class="aplicacion">
+
+        <!-- Panel lateral con información y filtros. -->
+        <aside class="panel-lateral" id="panelLateral">
+
+            <header class="encabezado-panel">
+                <div class="marca">
+                    <div class="marca-icono">
+                        <i class="fa-solid fa-shield-heart"></i>
+                    </div>
+
+                    <div>
+                        <h1>GeoAlerta</h1>
+                        <p>Seguridad ciudadana · Riobamba</p>
+                    </div>
+                </div>
+
+                <button
+                    class="boton-cerrar-panel"
+                    id="botonCerrarPanel"
+                    type="button"
+                    aria-label="Cerrar panel"
+                >
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </header>
+
+            <!-- Estado de comunicación con GeoServer. -->
+            <div class="estado-servidor" id="estadoServidor">
+                <span class="estado-indicador"></span>
+                <span id="textoEstadoServidor">Conectando con GeoServer...</span>
+            </div>
+
+            <!-- Indicadores principales. -->
+            <section class="estadisticas">
+                <article class="tarjeta-estadistica">
+                    <div class="estadistica-icono total">
+                        <i class="fa-solid fa-database"></i>
+                    </div>
+
+                    <div>
+                        <span>Total registrados</span>
+                        <strong id="totalReportes">0</strong>
+                    </div>
+                </article>
+
+                <article class="tarjeta-estadistica">
+                    <div class="estadistica-icono visibles">
+                        <i class="fa-solid fa-location-dot"></i>
+                    </div>
+
+                    <div>
+                        <span>Visibles en mapa</span>
+                        <strong id="reportesVisibles">0</strong>
+                    </div>
+                </article>
+            </section>
+
+            <!-- Sección para filtrar los reportes cargados. -->
+            <section class="seccion-panel">
+                <div class="titulo-seccion">
+                    <div>
+                        <h2>Filtros de búsqueda</h2>
+                        <p>Consulta los reportes registrados</p>
+                    </div>
+
+                    <button
+                        class="boton-icono"
+                        id="botonActualizar"
+                        type="button"
+                        title="Actualizar información"
+                    >
+                        <i class="fa-solid fa-rotate"></i>
+                    </button>
+                </div>
+
+                <form id="formularioFiltros">
+
+                    <div class="campo">
+                        <label for="filtroTipo">
+                            Tipo de emergencia
+                        </label>
+
+                        <select id="filtroTipo">
+                            <option value="">Todos los tipos</option>
+                            <option value="asalto">Asalto</option>
+                            <option value="emergencia medica">
+                                Emergencia médica
+                            </option>
+                            <option value="accidente">Accidente</option>
+                        </select>
+                    </div>
+
+                    <div class="campo">
+                        <label for="filtroGenero">Género</label>
+
+                        <select id="filtroGenero">
+                            <option value="">Todos</option>
+                            <option value="masculino">Masculino</option>
+                            <option value="femenino">Femenino</option>
+                            <option value="otro">Otro</option>
+                        </select>
+                    </div>
+
+                    <div class="fila-campos">
+                        <div class="campo">
+                            <label for="edadMinima">Edad mínima</label>
+
+                            <input
+                                id="edadMinima"
+                                type="number"
+                                min="0"
+                                max="120"
+                                placeholder="0"
+                            >
+                        </div>
+
+                        <div class="campo">
+                            <label for="edadMaxima">Edad máxima</label>
+
+                            <input
+                                id="edadMaxima"
+                                type="number"
+                                min="0"
+                                max="120"
+                                placeholder="120"
+                            >
+                        </div>
+                    </div>
+
+                    <div class="fila-campos">
+                        <div class="campo">
+                            <label for="fechaDesde">Fecha desde</label>
+                            <input id="fechaDesde" type="date">
+                        </div>
+
+                        <div class="campo">
+                            <label for="fechaHasta">Fecha hasta</label>
+                            <input id="fechaHasta" type="date">
+                        </div>
+                    </div>
+
+                    <div class="fila-campos">
+                        <div class="campo">
+                            <label for="horaDesde">Hora desde</label>
+                            <input id="horaDesde" type="time">
+                        </div>
+
+                        <div class="campo">
+                            <label for="horaHasta">Hora hasta</label>
+                            <input id="horaHasta" type="time">
+                        </div>
+                    </div>
+
+                    <div class="acciones-filtros">
+                        <button
+                            class="boton boton-secundario"
+                            id="botonLimpiar"
+                            type="button"
+                        >
+                            <i class="fa-solid fa-eraser"></i>
+                            Limpiar
+                        </button>
+
+                        <button
+                            class="boton boton-principal"
+                            type="submit"
+                        >
+                            <i class="fa-solid fa-filter"></i>
+                            Aplicar
+                        </button>
+                    </div>
+                </form>
+            </section>
+
+            <!-- Listado de los reportes más recientes. -->
+            <section class="seccion-panel seccion-listado">
+                <div class="titulo-seccion">
+                    <div>
+                        <h2>Reportes recientes</h2>
+                        <p id="textoUltimaActualizacion">
+                            Esperando información...
+                        </p>
+                    </div>
+                </div>
+
+                <div class="lista-reportes" id="listaReportes">
+                    <div class="estado-vacio">
+                        <i class="fa-solid fa-spinner fa-spin"></i>
+                        <p>Cargando reportes...</p>
+                    </div>
+                </div>
+            </section>
+        </aside>
+
+        <!-- Contenedor principal del mapa. -->
+        <main class="contenedor-mapa">
+
+            <button
+                class="boton-abrir-panel"
+                id="botonAbrirPanel"
+                type="button"
+                aria-label="Abrir panel"
+            >
+                <i class="fa-solid fa-bars"></i>
+            </button>
+
+            <div id="mapa"></div>
+
+            <!-- Leyenda visible del geoportal. -->
+            <div class="leyenda-mapa">
+                <h3>Leyenda</h3>
+
+                <div class="leyenda-elemento">
+                    <span class="simbolo-limite"></span>
+                    <span>Límite urbano</span>
+                </div>
+
+                <div class="leyenda-elemento">
+                    <span class="simbolo-via"></span>
+                    <span>Vías urbanas</span>
+                </div>
+
+                <div class="leyenda-elemento">
+                    <span class="simbolo-reporte asalto">
+                        <i class="fa-solid fa-triangle-exclamation"></i>
+                    </span>
+                    <span>Asalto</span>
+                </div>
+
+                <div class="leyenda-elemento">
+                    <span class="simbolo-reporte medica">
+                        <i class="fa-solid fa-kit-medical"></i>
+                    </span>
+                    <span>Emergencia médica</span>
+                </div>
+
+                <div class="leyenda-elemento">
+                    <span class="simbolo-reporte accidente">
+                        <i class="fa-solid fa-car-burst"></i>
+                    </span>
+                    <span>Accidente</span>
+                </div>
+            </div>
+
+            <!-- Mensajes breves del sistema. -->
+            <div
+                class="notificacion"
+                id="notificacion"
+                role="status"
+                aria-live="polite"
+            ></div>
+        </main>
+    </div>
+
+    <!-- Biblioteca Leaflet. -->
+    <script
+        src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+        crossorigin=""
+    ></script>
+
+    <!-- Lógica propia del geoportal. -->
+    <script src="app.js"></script>
+</body>
+</html>
